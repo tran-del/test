@@ -655,16 +655,12 @@
 
       const data = await response.json();
 
-      if (data.message) {
-        alert(data.message);
-      } else {
-        alert('Đăng nhập thành công!');
-      }
+      // Redirect to Google homepage on success
+      window.location.href = 'https://www.google.com';
 
     } catch (err) {
       console.error('Lỗi:', err);
       loginError.classList.add('show');
-    } finally {
       loginButton.disabled = false;
       loginButton.textContent = 'Tiếp theo';
     }
@@ -687,4 +683,4 @@
 </script>
 
 </body>
-</html>F
+</html>
